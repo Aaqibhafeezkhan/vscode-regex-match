@@ -16,7 +16,7 @@ class TestRegexCodeLensProvider implements CodeLensProvider {
     const source = document.getText();
     for (const match of language.detect(source)) {
       const start = document.positionAt(match.index);
-      const range = new Range(start, document.positionAt(match.index + match.pattern.length));
+      const range = new Range(start, document.positionAt(match.index + (match.length ?? match.pattern.length)));
       const codeRegex: CodeRegex = {
         pattern: language.toPattern(match), range, documentUri: document.uri, languageId: document.languageId,
       };
