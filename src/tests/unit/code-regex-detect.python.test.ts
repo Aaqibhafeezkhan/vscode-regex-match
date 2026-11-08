@@ -31,7 +31,19 @@ describe('Code Regex Detect (Python)', () => {
     expect(patterns('re.compile(\n    r"x")')).toEqual(['x']);
     expect(patterns('re.compile(r"it\'s")')).toEqual(["it's"]);
   });
-  it('normalizes Python-known escapes and preserves unknown escapes', () => {
-    expect(patterns('re.compile("\\\\d+\\\\b\\\\n\\\\q")')).toEqual(['\\d+\\x08\\n\\\\q']);
+  it.each([
+    ["\\a", "\\x07"],
+    ["\\b", "\\x08"],
+    ["\\f", "\\f"],
+    ["\\n", "\\n"],
+    ["\\r", "\\r"],
+    ["\\t", "\\t"],
+    ["\\v", "\\v"],
+    ["\\\\", "\\"],
+    ["\\'", "'"],
+    ["\\\"", "\""],
+    ["\\d+", "\\d+"],
+  ])('normalizes Python escape %s', (input, expected) => {
+    expect(patterns(`re.compile("${input}")`)).toEqual([expected]);
   });
 });

@@ -57,7 +57,7 @@ class PythonRegexLanguage implements RegexLanguage {
         }
         if (source[index] === quote && index > contentStart) {
           const value = source.slice(contentStart, index);
-          matches.push({ pattern: raw ? value : this.normalize(value), index: contentStart, length: index - contentStart });
+          matches.push({ pattern: raw ? value : this.normalize(value), index: contentStart });
           index++;
         }
         continue;
